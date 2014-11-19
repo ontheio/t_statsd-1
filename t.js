@@ -19,20 +19,41 @@ TBackend.prototype.flush = function(timestamp, metrics) {
   for ( var m in metrics.gauges ) data += '?k=' + api_id + ':' + m + '&v==' + metrics.gauges[m] + '&s=' + md5(api_id + ':' + m + api_key) + " ";
   if ( !data.length ) return;
 
-  var options = url.parse('http://tapi.onthe.io/');
-  options.method = 'POST';
-  options.headers = {
+  send_t_data(data, 0);
+};
+
+function send_t_data(data, tries) {
+  if ( tries >= 5 ) throw 'Failed to send data to t';
+  tries++;
+
+  console.log('Sending data to t, try ' + tries);
+
+  try
+  {
+    var options = url.parse('http://tapi.onthe.io/');
+
+    options.method = 'POST';
+    options.headers = {
 	'Content-Length': data.length,
 	'Content-Type': "application/x-www-form-urlencoded"
-  };
+    };
 
-  var req = http.request(options, function(res) {
-    res.setEncoding('utf8');
-  });
+    var req = http.request(options, function(res) {
+      if ( res.statusCode != 200 ) setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
+    });
 
-  req.write(data);
-  req.end();
-};
+    req.on('error', function(errdata) {
+      setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
+    });
+
+    req.write(data);
+    req.end();
+  }
+  catch ( e )
+  {
+    setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
+  }  
+}
 
 TBackend.prototype.status = function(write) {
   ['lastFlush', 'lastException'].forEach(function(key) {
