@@ -5,10 +5,10 @@ https://t.onthe.io http backend for statsd
 
 How to use:
 
-1. create t.onthe.io account
-2. obtain API id and key
-3. download t.js backend and copy it into statsd/backends folder
-4. edit statsd/config.js properly:
+- create t.onthe.io account
+- obtain API id and key
+- download t.js backend and copy it into statsd/backends folder
+- edit statsd/config.js:
 ```
 {
   port: 8125
@@ -18,4 +18,4 @@ How to use:
 }
 ```
 
-5. Restart statsd.
+- Restart statsd.
