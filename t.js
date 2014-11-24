@@ -1,4 +1,4 @@
-var util = require('util'), http = require('http'), url = require('url'), querystring = require('querystring'), md5 = require('MD5');
+var util = require('util'), https = require('https'), url = require('url'), querystring = require('querystring'), md5 = require('MD5');
 
 var api_id, api_key;
 
@@ -23,26 +23,26 @@ TBackend.prototype.flush = function(timestamp, metrics) {
 };
 
 function resolve_metric(m) {
-	return new Buffer(m, 'base64').toString('ascii');
+        return new Buffer(m, 'base64').toString('ascii');
 }
 
 function send_t_data(data, tries) {
   if ( tries >= 5 ) throw 'Failed to send data to t';
   tries++;
 
-  console.log('Sending data to t, try ' + tries);
+  console.log('Sending data to t, attempt ' + tries);
 
   try
   {
-    var options = url.parse('http://tapi.onthe.io/');
+    var options = url.parse('https://tapi.onthe.io/');
 
     options.method = 'POST';
     options.headers = {
-	'Content-Length': data.length,
-	'Content-Type': "application/x-www-form-urlencoded"
+        'Content-Length': data.length,
+        'Content-Type': "application/x-www-form-urlencoded"
     };
 
-    var req = http.request(options, function(res) {
+    var req = https.request(options, function(res) {
       if ( res.statusCode != 200 ) setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
     });
 
@@ -55,8 +55,9 @@ function send_t_data(data, tries) {
   }
   catch ( e )
   {
+    console.log(e);
     setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
-  }  
+  }
 }
 
 TBackend.prototype.status = function(write) {
