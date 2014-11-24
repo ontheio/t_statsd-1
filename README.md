@@ -1,8 +1,7 @@
 t_statsd
 ========
 
-https://t.onthe.io http backend for statsd
-
+https://t.onthe.io http backend for statsd.
 How to use:
 
 - create t.onthe.io account
