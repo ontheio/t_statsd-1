@@ -4,9 +4,9 @@ t_statsd
 https://t.onthe.io http backend for statsd.
 
 How to use:
-- create t.onthe.io account.
-- obtain API id and key.
-- download t.js backend and copy it into statsd/backends folder.
+- Create t.onthe.io account.
+- Obtain API id and key.
+- Download this t.js backend and place it under statsd/backends folder.
 - edit statsd/config.js:
 ```
 {
