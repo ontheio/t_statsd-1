@@ -18,4 +18,4 @@ How to use:
 }
 ```
 
-Restart statsd.
+5. Restart statsd.
