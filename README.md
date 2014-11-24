@@ -1,7 +1,7 @@
 t_statsd
 ========
 
-t.onthe.io http backend for statsd
+https://t.onthe.io http backend for statsd
 
 How to use:
 
