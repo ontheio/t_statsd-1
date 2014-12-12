@@ -30,8 +30,6 @@ function send_t_data(data, tries) {
   if ( tries >= 5 ) throw 'Failed to send data to t';
   tries++;
 
-  console.log('Sending data to t, attempt ' + tries);
-
   try
   {
     var options = url.parse('https://tapi.onthe.io/');
