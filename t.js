@@ -41,8 +41,11 @@ function send_t_data(data, tries) {
     };
 
     var req = https.request(options, function(res) {
-      if ( res.statusCode != 200 ) setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
-      console.log((new Date()) + ' bad response code from t: ' + res.statusCode);
+      if ( res.statusCode != 200 )
+      {
+        setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
+        console.log((new Date()) + ' bad response code from t: ' + res.statusCode);
+      }
     });
 
     req.on('error', function(errdata) {
