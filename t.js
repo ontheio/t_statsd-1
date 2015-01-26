@@ -27,7 +27,7 @@ function resolve_metric(m) {
 }
 
 function send_t_data(data, tries) {
-  if ( tries >= 5 ) throw (new Date()) + ' Failed to send data to t';
+  if ( tries >= 5 ) throw (new Date()) + ' failed to send data to t';
   tries++;
 
   try
