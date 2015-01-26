@@ -42,12 +42,12 @@ function send_t_data(data, tries) {
 
     var req = https.request(options, function(res) {
       if ( res.statusCode != 200 ) setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
-      console.log(throw (new Date()) + ' bad response code from t: ' + res.statusCode);
+      console.log((new Date()) + ' bad response code from t: ' + res.statusCode);
     });
 
     req.on('error', function(errdata) {
       setTimeout(function() { send_t_data(data, tries); }, 1000 * tries);
-      console.log(throw (new Date()) + ' error response from t: ' + errdata);
+      console.log((new Date()) + ' error response from t: ' + errdata);
     });
 
     req.write(data);
