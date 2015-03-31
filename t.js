@@ -15,15 +15,15 @@ function TBackend(startupTime, config, emitter){
 
 TBackend.prototype.flush = function(timestamp, metrics) {
   var data = '';
-  for ( var m in metrics.counters ) if ( m.indexOf('statsd') == -1 ) if ( metrics.counters[m] ) data += '?k=' + api_id + ':' + resolve_metric(m) + '&v=' + metrics.counters[m] + '&s=' + md5(api_id + ':' + resolve_metric(m) + api_key) + " ";
-  for ( var m in metrics.gauges ) if ( m.indexOf('statsd') == -1 ) data += '?k=' + api_id + ':' + resolve_metric(m) + '&v==' + metrics.gauges[m] + '&s=' + md5(api_id + ':' + resolve_metric(m) + api_key) + " ";
+  for ( var m in metrics.counters ) if ( m.indexOf('statsd') == -1 ) if ( metrics.counters[m] ) data += '?k=' + api_id + ':' + resolve_metric(m).replace(/\+/g, '%2B') + '&v=' + metrics.counters[m] + '&s=' + md5(api_id + ':' + resolve_metric(m) + api_key) + " ";
+  for ( var m in metrics.gauges ) if ( m.indexOf('statsd') == -1 ) data += '?k=' + api_id + ':' + resolve_metric(m).replace(/\+/g, '%2B') + '&v==' + metrics.gauges[m] + '&s=' + md5(api_id + ':' + resolve_metric(m) + api_key) + " ";
   if ( !data.length ) return;
 
   send_t_data(data, 0);
 };
 
 function resolve_metric(m) {
-        return new Buffer(m, 'base64').toString('ascii');
+  return new Buffer(m, 'base64').toString('ascii');
 }
 
 function send_t_data(data, tries) {
