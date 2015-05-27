@@ -23,7 +23,7 @@ TBackend.prototype.flush = function(timestamp, metrics) {
 };
 
 function resolve_metric(m) {
-  return new Buffer(m, 'base64').toString('ascii');
+  return m.indexOf('.') != -1 ? m : new Buffer(m, 'base64').toString('ascii');
 }
 
 function send_t_data(data, tries) {
